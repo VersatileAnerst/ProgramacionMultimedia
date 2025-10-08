@@ -8,9 +8,12 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_anchor="@+id/linearLayout"
+        app:layout_anchorGravity="center">
 
         <EditText
             android:id="@+id/editTextText"
@@ -31,5 +34,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonMas"
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/buttonMenos"
+                android:layout_width="212dp"
+                android:layout_height="wrap_content"
+                android:text="-" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
