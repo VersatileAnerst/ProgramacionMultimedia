@@ -1,6 +1,7 @@
 package com.example.cuadrado
 
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import model.Cuadrado
+import model.CuadradoBorde
 import kotlin.random.Random
 
 
@@ -31,9 +33,18 @@ class MainActivity : AppCompatActivity() {
             val iniciarY : Int = cuadradoView.y.toInt()
             //asociar la vista con el objeto cuadrado
             //contextcompac es una clase estatica
-            val cuadrado: Cuadrado= Cuadrado(ContextCompat.getColor(this,R.color.red),iniciarAncho,iniciarAlto).apply {
+            /*val cuadrado: Cuadrado= Cuadrado(ContextCompat.getColor(this,R.color.red),iniciarAncho,iniciarAlto).apply {
                 x=iniciarX
                 y=iniciarY
+            }*/
+            val cuadrado: CuadradoBorde= CuadradoBorde(
+                ContextCompat.getColor(this, R.color.red),
+                iniciarAncho,
+                iniciarAlto
+            ).apply {
+                x=iniciarX
+                y=iniciarY
+                bordeColor = ContextCompat.getColor(this@MainActivity, R.color.black)
             }
             //identificar de botones
             val buttontonArriba : Button=findViewById(R.id.buttonArriba)
@@ -44,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             val buttonColor : Button=findViewById(R.id.buttonCambiarColor)
             val buttonAumentar : Button=findViewById(R.id.buttonAumentar)
             val buttonDisminuir : Button=findViewById(R.id.buttonDisminuir)
-
+            val buttonBorde : Button=findViewById(R.id.buttonCambiarBorde)
             //ponemos botones a la escucha
             buttontonArriba.setOnClickListener {
                 cuadrado.moverArriba()
@@ -79,6 +90,10 @@ class MainActivity : AppCompatActivity() {
                 cuadrado.disminuir()
                 actualizarVista(cuadrado, cuadradoView)
             }
+            buttonBorde.setOnClickListener{
+                cuadrado.cambiarColorBorde(generarColorAleatorio())
+                actualizarVista(cuadrado, cuadradoView)
+            }
 
         }//post
 
@@ -96,16 +111,24 @@ class MainActivity : AppCompatActivity() {
         //Color es la clase para almacenar colores y ek metodo rgb() saca el numero
         return Color.rgb(rojo,verde,azul)
     }
-    private fun actualizarVista(cuadrado: Cuadrado,cuadradoView:View){
+    private fun actualizarVista(cuadrado: CuadradoBorde,cuadradoView:View){
         //aqui es donde elazamos la vista con el objeto
         //la vista se actualizara su ancho y alto con los datos del objeto
         cuadradoView.layoutParams.width=cuadrado.ancho
         cuadradoView.layoutParams.height=cuadrado.alto
         //cambiar color
-        cuadradoView.setBackgroundColor(cuadrado.color)
+        //cuadradoView.setBackgroundColor(cuadrado.color)
         //actualizar las coordenadas
         cuadradoView.x=cuadrado.x.toFloat()
         cuadradoView.y=cuadrado.y.toFloat()
+
+        val drawable: GradientDrawable = GradientDrawable()
+        //Le damos color de fondo
+        drawable.setColor(cuadrado.color)
+        //Le damos color de fondo
+        drawable.setStroke(10,cuadrado.bordeColor)
+        //asignamos a la vista
+        cuadradoView.background = drawable
         //ejecutar los cambios
         cuadradoView.requestLayout()
     }

@@ -1,6 +1,6 @@
 package model
 
-class Cuadrado (var color:Int , var ancho:Int , var alto:Int) {
+open class Cuadrado (var color:Int, var ancho:Int, var alto:Int) {
     //coordenadas iniciales
     var x : Int=0
     var y : Int=0
@@ -31,4 +31,4 @@ class Cuadrado (var color:Int , var ancho:Int , var alto:Int) {
         ancho -= 10
         alto -= 10
     }
-}
+}class CuadradoBordes(color:Int, ancho: Int, alto: Int, var bordecolor: Int=android.graphics.Color.BLACK)
