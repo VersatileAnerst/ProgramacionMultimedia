@@ -91,7 +91,9 @@ class MainActivity : AppCompatActivity() {
                 actualizarVista(cuadrado, cuadradoView)
             }
             buttonBorde.setOnClickListener{
-                cuadrado.cambiarColorBorde(generarColorAleatorio())
+                //cuadrado.cambiarColorBorde(generarColorAleatorio()) Para que el color sea aleatorio
+                //Llamamos al afuncion de la clase Nested
+                cuadrado.cambiarColorBorde(CuadradoBorde.ManejoColor.obtenerCuatroColoresAleatorio())
                 actualizarVista(cuadrado, cuadradoView)
             }
 
