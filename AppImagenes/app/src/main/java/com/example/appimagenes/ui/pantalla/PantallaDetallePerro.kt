@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.navigation.NavController
 import com.example.appimagenes.R
@@ -51,33 +52,9 @@ fun PantallaDetallePerro(navController: NavController, id:Int) {
         Text(perro.nombre, style = MaterialTheme.typography.displayLarge)
         Text(perro.raza, style = MaterialTheme.typography.displayMedium)
         Text(perro.descripcion, style = MaterialTheme.typography.displaySmall)
-        //Para poner animaciones a la imagen en un Box
 
-        var escala by remember { mutableStateOf(1f) }
-        var posicion by remember { mutableStateOf(Offset.Zero) }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .pointerInput(Unit) {
-                    detectTransformGestures { _, desplazamiento, zoom, _ ->
-                        posicion += desplazamiento
-                        escala *= zoom
-                    }
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = perro.imagen),
-                contentDescription = perro.nombre,
-                modifier = Modifier.graphicsLayer(
-                    translationX = posicion.x,
-                    translationY = posicion.y,
-                    scaleX = escala,
-                    scaleY = escala
-                )
-            )
-        }
+        //Funcion para la imagen
+        ImagenZoom(perro.imagen, perro.nombre)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -89,6 +66,40 @@ fun PantallaDetallePerro(navController: NavController, id:Int) {
         }) {
             Text("Ladrido")
         }
+    }
+}
+@Composable
+fun ImagenZoom(perroId: Int, nombre: String) {
+    //Escala de la imagen
+    var escala by remember { mutableStateOf(1f) }
+    //Posicion de la imagen
+    var posicion by remember { mutableStateOf(Offset.Zero) }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp)
+            .pointerInput(Unit) {
+                detectTransformGestures { _, desplazamiento, zoom, _ ->
+                        //Actualizar posición
+                        posicion += desplazamiento
+                        //Actualizar escala
+                        escala = (escala * zoom).coerceIn(0.5f, 5f)
+                }
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = perroId),
+            contentDescription = nombre,
+            modifier = Modifier.graphicsLayer(
+                //escala
+                scaleX = escala,
+                scaleY = escala,
+                //posicion
+                translationX = posicion.x,
+                translationY = posicion.y
+            )
+        )
     }
 }
 
