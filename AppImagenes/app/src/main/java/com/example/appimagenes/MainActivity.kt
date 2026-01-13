@@ -46,6 +46,13 @@ fun PerrosApp(){
         composable("inicio") {PantallaInicio(navController)}
         composable ("info") {PantallaInfo(navController)}
         composable  ("galeria") {PantallaGaleria(navController)}
+        //Pasandole el id correcto
+        composable("detalle/{id}") { backStackEntry ->
+            val idString = backStackEntry.arguments!!.getString("id")!!
+            val id = idString.toInt()
+            PantallaDetallePerro(navController, id)
+        }
+
     }
 }
 @Composable
