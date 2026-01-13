@@ -31,7 +31,9 @@ fun PantallaGaleria(navController : NavController){
         items(RepositorioPerros.listaPerros.size){
             index:Int-> val perro = RepositorioPerros.listaPerros[index]
             //con cada elemento de la lista lo metemos en un card
-            Card (modifier = Modifier.padding((8.dp)).fillMaxWidth().clickable{PantallaDetallePerro(navController, perro.id)}){
+            Card (modifier = Modifier.padding((8.dp)).fillMaxWidth().clickable {
+                navController.navigate("detalle/${perro.id}")
+            }){
                 Row(modifier = Modifier.padding(8.dp)){
                     Image(painter = painterResource(id = perro.imagen),
                         contentDescription = perro.nombre,
